@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Monthsary!</title>
+    <style>
+        /* Basic CSS styling for mobile-friendly layout */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #ffebcd;
+        }
+
+        h1 {
+            font-size: 2em;
+            color: #ff6b6b;
+            margin: 10px;
+        }
+
+        p {
+            font-size: 1.2em;
+            color: #333;
+            max-width: 80%;
+        }
+
+        /* Button styling */
+        .surprise-button {
+            padding: 10px 20px;
+            margin-top: 20px;
+            font-size: 1em;
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Animation */
+        .heart {
+            font-size: 3em;
+            color: #ff6b6b;
+            animation: heartbeat 1.5s infinite;
+            margin: 20px 0;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+    </style>
+</head>
+<body>
+    <h1>Happy Monthsary! 💖</h1>
+    <p>Here’s to another beautiful month with you. I’m so grateful to have you by my side. Can't wait for all the moments we’ll share ahead. Love you always!</p>
+    <div class="heart">❤️</div>
+    <button class="surprise-button" onclick="showSurprise()">Click for a Surprise</button>
+
+    <script>
+        function showSurprise() {
+            alert("Surprise! Thank you for being my everything ❤️");
+        }
+    </script>
+</body>
+</html>
