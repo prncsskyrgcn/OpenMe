@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fireworks with Cute Sprinkled Text</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+    canvas {
+      display: block;
+      background-color: #000;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // Fireworks setup
+    class Firework {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = canvas.height;
+        this.targetY = Math.random() * canvas.height / 2;
+        this.size = 2;
+        this.speedY = Math.random() * 6 + 4;
+        this.colors = ['#ff1461', '#18ff92', '#5a87ff', '#fbf38c'];
+        this.color = this.colors[Math.floor(Math.random() * this.colors.length)];
+      }
+
+      update() {
+        if (this.y > this.targetY) {
+          this.y -= this.speedY;
+          this.size += 0.02;
+        } else {
+          this.explode();
+        }
+      }
+
+      explode() {
+        for (let i = 0; i < 20; i++) {
+          particles.push(new Particle(this.x, this.y, this.color));
+        }
+        fireworks.splice(fireworks.indexOf(this), 1);
+      }
+
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+      }
+    }
+
+    class Particle {
+      constructor(x, y, color) {
+        this.x = x;
+        this.y = y;
+        this.size = Math.random() * 3 + 1;
+        this.speedX = Math.random() * 4 - 2;
+        this.speedY = Math.random() * 4 - 2;
+        this.color = color;
+        this.life = 100;
+      }
+
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.life -= 1;
+      }
+
+      draw() {
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    // Floating Sprinkled Text Setup
+    const fonts = ["cursive", "Papyrus", "Brush Script MT"];
+    class FloatingText {
+      constructor() {
+        this.text = "I love you";
+        this.x = Math.random() * canvas.width;
+        this.y = canvas.height - 30;
+        this.speedY = Math.random() * 1.5 + 0.5;
+        this.alpha = 1.0;
+        this.fontSize = Math.random() * 20 + 20;  // Random font size between 20 and 40
+        this.font = fonts[Math.floor(Math.random() * fonts.length)];
+      }
+
+      update() {
+        this.y -= this.speedY;  // Move text upward
+        this.alpha -= 0.005;    // Fade out slowly
+        if (this.alpha <= 0) {  // Reset text when it fades out
+          this.y = canvas.height - 30;
+          this.alpha = 1.0;
+          this.x = Math.random() * canvas.width;
+          this.fontSize = Math.random() * 20 + 20;
+          this.font = fonts[Math.floor(Math.random() * fonts.length)];
+        }
+      }
+
+      draw() {
+        ctx.font = `${this.fontSize}px ${this.font}`;
+        ctx.fillStyle = `rgba(255, 105, 180, ${this.alpha})`;  // Pink color with transparency
+        ctx.textAlign = "center";
+        ctx.fillText(this.text, this.x, this.y);
+      }
+    }
+
+    let fireworks = [];
+    let particles = [];
+    let floatingTexts = Array.from({ length: 5 }, () => new FloatingText());  // Create multiple text instances
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Launch fireworks more frequently
+      if (Math.random() < 0.1) {
+        fireworks.push(new Firework());
+      }
+
+      // Update and draw fireworks
+      for (let i = fireworks.length - 1; i >= 0; i--) {
+        fireworks[i].update();
+        fireworks[i].draw();
+      }
+
+      // Update and draw particles
+      for (let i = particles.length - 1; i >= 0; i--) {
+        particles[i].update();
+        particles[i].draw();
+        if (particles[i].life <= 0) {
+          particles.splice(i, 1);
+        }
+      }
+
+      // Update and draw floating texts
+      floatingTexts.forEach(text => {
+        text.update();
+        text.draw();
+      });
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  </script>
+</body>
+</html>
